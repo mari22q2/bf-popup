@@ -35,7 +35,7 @@
     closeBtn.style.right = '15px';
     closeBtn.style.background = 'transparent';
     closeBtn.style.border = 'none';
-    closeBtn.style.color = '${color}';
+    closeBtn.style.color = `${color}`;
     closeBtn.style.fontSize = '30px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = () => {
@@ -54,7 +54,7 @@
     // Show preloader
     const preloader = document.createElement('div');
     preloader.style.border = '6px solid #f3f3f3';
-    preloader.style.borderTop = '6px solid ${color}';
+    preloader.style.borderTop = `6px solid ${color}`;
     preloader.style.borderRadius = '50%';
     preloader.style.width = '50px';
     preloader.style.height = '50px';
