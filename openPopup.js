@@ -1,14 +1,8 @@
 (function() {
   // Function to initialize and show the popup
-  function openPopup(iframeUrl, color = '#007bff', width = 700, height = 700) {
-    // Ensure only one popup exists at a time
-    if (document.getElementById('popupOverlay')) {
-      return;
-    }
-
+  function openPopup(iframeUrl, brandColor, width = 700, height = 700) {
     // Create overlay
     const overlay = document.createElement('div');
-    overlay.id = 'popupOverlay';
     overlay.style.position = 'fixed';
     overlay.style.top = '0';
     overlay.style.left = '0';
@@ -41,7 +35,7 @@
     closeBtn.style.right = '15px';
     closeBtn.style.background = 'transparent';
     closeBtn.style.border = 'none';
-    closeBtn.style.color = color;
+    closeBtn.style.color = brandColor;
     closeBtn.style.fontSize = '30px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = () => {
@@ -60,7 +54,7 @@
     // Show preloader
     const preloader = document.createElement('div');
     preloader.style.border = '6px solid #f3f3f3';
-    preloader.style.borderTop = `6px solid ${color}`;
+    preloader.style.borderTop = `6px solid ${brandColor}`;
     preloader.style.borderRadius = '50%';
     preloader.style.width = '50px';
     preloader.style.height = '50px';
