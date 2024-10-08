@@ -19,8 +19,15 @@
     overlay.style.display = 'flex';
     overlay.style.justifyContent = 'center';
     overlay.style.alignItems = 'center';
+    overlay.style.opacity = '0';
+    overlay.style.transistion = 'opacity 0.4 ease-in';
     document.body.appendChild(overlay);
 
+    // Fade in overlay
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+    });
+    
     // Close popup if clicking outside the box
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
