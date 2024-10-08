@@ -1,8 +1,14 @@
 (function() {
   // Function to initialize and show the popup
-  function openPopup(iframeUrl, brandColor, width = 700, height = 700) {
+  function openPopup(iframeUrl, brandColor = '#007bff', width = 700, height = 700) {
+    // Check if an overlay already exists
+    if (document.querySelector('.popup-overlay')) {
+      return;
+    }
+
     // Create overlay
     const overlay = document.createElement('div');
+    overlay.className = 'popup-overlay';
     overlay.style.position = 'fixed';
     overlay.style.top = '0';
     overlay.style.left = '0';
@@ -14,6 +20,13 @@
     overlay.style.justifyContent = 'center';
     overlay.style.alignItems = 'center';
     document.body.appendChild(overlay);
+
+    // Close popup if clicking outside the box
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) {
+        document.body.removeChild(overlay);
+      }
+    });
 
     // Create popup container
     const popup = document.createElement('div');
@@ -29,14 +42,14 @@
 
     // Create close button
     const closeBtn = document.createElement('button');
-    closeBtn.innerHTML = '&times;';
+    closeBtn.textContent = '×';
     closeBtn.style.position = 'absolute';
     closeBtn.style.top = '10px';
     closeBtn.style.right = '15px';
     closeBtn.style.background = 'transparent';
     closeBtn.style.border = 'none';
     closeBtn.style.color = brandColor;
-    closeBtn.style.fontSize = '30px';
+    closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = () => {
       document.body.removeChild(overlay);
@@ -53,6 +66,10 @@
 
     // Show preloader
     const preloader = document.createElement('div');
+    preloader.style.position = 'absolute';
+    preloader.style.top = '50%';
+    preloader.style.left = '50%';
+    preloader.style.transform = 'translate(-50%, -50%)';
     preloader.style.border = '6px solid #f3f3f3';
     preloader.style.borderTop = `6px solid ${brandColor}`;
     preloader.style.borderRadius = '50%';
@@ -74,10 +91,8 @@
 
     // Wait for iframe to load and then fade in popup
     iframe.onload = () => {
-      setTimeout(() => {
-        preloader.style.display = 'none';
-        popup.style.opacity = '1';
-      }, 1000); // Ensure preloader is shown for at least 1 second
+      preloader.style.display = 'none';
+      popup.style.opacity = '1';
     };
   }
 
