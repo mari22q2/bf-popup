@@ -1,6 +1,6 @@
 (function() {
   // Function to initialize and show the popup
-  function openPopup(iframeUrl, brandColor = '#007bff', width = 700, height = 700) {
+  function openPopup(iframeUrl, brandColor = '#007bff', width = 700, height = 650) {
     // Check if an overlay already exists
     if (document.querySelector('.popup-overlay')) {
       return;
