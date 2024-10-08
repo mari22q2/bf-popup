@@ -20,7 +20,7 @@
     overlay.style.justifyContent = 'center';
     overlay.style.alignItems = 'center';
     overlay.style.opacity = '0';
-    overlay.style.transistion = 'opacity 0.4 ease-in';
+    overlay.style.transition = 'opacity 0.4s ease-in';
     document.body.appendChild(overlay);
 
     // Fade in overlay
