@@ -38,8 +38,8 @@
     // Create popup container
     const popup = document.createElement('div');
     popup.style.position = 'relative';
-    popup.style.width = ${width}px;
-    popup.style.height = ${height}px;
+    popup.style.width = `${width}px`;
+    popup.style.height = `${height}px`;
     popup.style.background = '#fff';
     popup.style.borderRadius = '15px';
     popup.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)';
@@ -78,7 +78,7 @@
     preloader.style.left = '50%';
     preloader.style.transform = 'translate(-50%, -50%)';
     preloader.style.border = '6px solid #f3f3f3';
-    preloader.style.borderTop = 6px solid ${brandColor};
+    preloader.style.borderTop = `6px solid ${brandColor}`;
     preloader.style.borderRadius = '50%';
     preloader.style.width = '50px';
     preloader.style.height = '50px';
@@ -88,12 +88,12 @@
     // Add keyframes for preloader animation
     const styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
-    styleSheet.innerText = 
+    styleSheet.innerText = `
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
-    ;
+    `;
     document.head.appendChild(styleSheet);
 
     // Wait for iframe to load and then fade in popup
