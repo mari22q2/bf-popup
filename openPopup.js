@@ -1,10 +1,12 @@
 (function() {
-  // Function to initialize and show the popup
   function openPopup(iframeUrl, brandColor = '#007bff', width = 700, height = 650) {
     // Check if an overlay already exists
     if (document.querySelector('.popup-overlay')) {
       return;
     }
+
+    // Disable background scrolling
+    document.body.style.overflow = 'hidden';
 
     // Create overlay
     const overlay = document.createElement('div');
@@ -31,15 +33,18 @@
     // Close popup if clicking outside the box
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
+        document.body.style.overflow = ''; // Enable background scrolling again
         document.body.removeChild(overlay);
       }
     });
 
-    // Create popup container
+    // Create popup container with responsive design for mobile
     const popup = document.createElement('div');
     popup.style.position = 'relative';
-    popup.style.width = `${width}px`;
-    popup.style.height = `${height}px`;
+    popup.style.width = width > window.innerWidth ? '90%' : `${width}px`;
+    popup.style.height = height > window.innerHeight ? '90%' : `${height}px`;
+    popup.style.maxWidth = '90%';
+    popup.style.maxHeight = '90%';
     popup.style.background = '#fff';
     popup.style.borderRadius = '15px';
     popup.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)';
@@ -59,6 +64,7 @@
     closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = () => {
+      document.body.style.overflow = ''; // Enable background scrolling again
       document.body.removeChild(overlay);
     };
     popup.appendChild(closeBtn);
