@@ -1,14 +1,11 @@
 (function() {
   function openPopup(iframeUrl, brandColor = '#007bff', width = 700, height = 650) {
-    // Check if an overlay already exists
     if (document.querySelector('.popup-overlay')) {
       return;
     }
 
-    // Disable background scrolling
     document.body.style.overflow = 'hidden';
 
-    // Create overlay
     const overlay = document.createElement('div');
     overlay.className = 'popup-overlay';
     overlay.style.position = 'fixed';
@@ -25,26 +22,22 @@
     overlay.style.transition = 'opacity 0.4s ease-in';
     document.body.appendChild(overlay);
 
-    // Fade in overlay
     requestAnimationFrame(() => {
       overlay.style.opacity = '1';
     });
     
-    // Close popup if clicking outside the box
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
-        document.body.style.overflow = ''; // Enable background scrolling again
+        document.body.style.overflow = '';
         document.body.removeChild(overlay);
       }
     });
 
-    // Create popup container with responsive design for mobile
     const popup = document.createElement('div');
     popup.style.position = 'relative';
     popup.style.width = width > window.innerWidth ? '90%' : `${width}px`;
-    popup.style.height = height > window.innerHeight ? '90%' : `${height}px`;
     popup.style.maxWidth = '90%';
-    popup.style.maxHeight = '90%';
+    popup.style.maxHeight = '90vh';
     popup.style.background = '#fff';
     popup.style.borderRadius = '15px';
     popup.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)';
@@ -52,7 +45,6 @@
     popup.style.transition = 'opacity 0.5s ease';
     overlay.appendChild(popup);
 
-    // Create close button
     const closeBtn = document.createElement('button');
     closeBtn.textContent = '×';
     closeBtn.style.position = 'absolute';
@@ -64,20 +56,20 @@
     closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = () => {
-      document.body.style.overflow = ''; // Enable background scrolling again
+      document.body.style.overflow = '';
       document.body.removeChild(overlay);
     };
     popup.appendChild(closeBtn);
 
-    // Create iframe
     const iframe = document.createElement('iframe');
     iframe.src = iframeUrl;
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.border = 'none';
+    iframe.style.margin = '0'; // Fjern margin fra iframen
+    iframe.style.padding = '0'; // Fjern padding fra iframen
     popup.appendChild(iframe);
 
-    // Show preloader
     const preloader = document.createElement('div');
     preloader.style.position = 'absolute';
     preloader.style.top = '50%';
@@ -91,7 +83,6 @@
     preloader.style.animation = 'spin 1s linear infinite';
     overlay.appendChild(preloader);
 
-    // Add keyframes for preloader animation
     const styleSheet = document.createElement("style");
     styleSheet.type = "text/css";
     styleSheet.innerText = `
@@ -99,16 +90,20 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+
+      /* Fjern margin og padding for hele iframe-indholdet */
+      .popup-overlay iframe * {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
     `;
     document.head.appendChild(styleSheet);
 
-    // Wait for iframe to load and then fade in popup
     iframe.onload = () => {
       preloader.style.display = 'none';
       popup.style.opacity = '1';
     };
   }
 
-  // Expose the function to global scope
   window.openPopup = openPopup;
 })();
