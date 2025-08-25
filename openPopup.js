@@ -6,6 +6,10 @@
       return;
     }
 
+    // Save current body overflow and prevent background scrolling
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     // Create overlay
     const overlay = document.createElement('div');
     overlay.className = 'popup-overlay';
@@ -29,9 +33,16 @@
     });
     
     // Close popup if clicking outside the box
+    const restoreBody = () => {
+      document.body.style.overflow = previousOverflow;
+      if (overlay.parentNode) {
+        overlay.parentNode.removeChild(overlay);
+      }
+    };
+
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
-        document.body.removeChild(overlay);
+        restoreBody();
       }
     });
 
@@ -58,9 +69,7 @@
     closeBtn.style.color = brandColor;
     closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
-    closeBtn.onclick = () => {
-      document.body.removeChild(overlay);
-    };
+    closeBtn.onclick = restoreBody;
     popup.appendChild(closeBtn);
 
     // Create iframe
