@@ -65,12 +65,23 @@ class Element {
 const document = {
   head: new Element('head'),
   body: new Element('body'),
+  eventListeners: {},
   createElement(tag) { return new Element(tag); },
   querySelector(selector) {
     return this.head.querySelector(selector) || this.body.querySelector(selector);
   },
   getElementById(id) {
     return this.head.getElementById(id) || this.body.getElementById(id);
+  },
+  addEventListener(evt, handler) { this.eventListeners[evt] = handler; },
+  removeEventListener(evt, handler) {
+    if (this.eventListeners[evt] === handler) {
+      delete this.eventListeners[evt];
+    }
+  },
+  dispatchEvent(evt) {
+    const handler = this.eventListeners[evt.type];
+    if (handler) handler(evt);
   }
 };
 
@@ -96,16 +107,17 @@ function openAndClose() {
   if (preloader.style.animation !== 'spin 1s linear infinite') {
     throw new Error('Preloader animation missing');
   }
-  const closeBtn = overlay.querySelector('button');
-  if (!closeBtn) {
-    throw new Error('Close button missing');
-  }
-  closeBtn.click();
+
+  document.dispatchEvent({ type: 'keydown', key: 'Escape' });
+
   if (document.getElementById('popup-spinner-style')) {
     throw new Error('Style tag not removed');
   }
   if (document.querySelector('.popup-overlay')) {
     throw new Error('Overlay not removed');
+  }
+  if (document.eventListeners.keydown) {
+    throw new Error('Keydown listener not removed');
   }
 }
 

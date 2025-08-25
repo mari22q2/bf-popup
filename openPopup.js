@@ -23,19 +23,28 @@
     overlay.style.transition = 'opacity 0.4s ease-in';
     document.body.appendChild(overlay);
 
-    // Fade in overlay
-    requestAnimationFrame(() => {
-      overlay.style.opacity = '1';
-    });
-    
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        removePopup();
+      }
+    };
+
     // Helper to remove overlay and associated styles
     const removePopup = () => {
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.removeChild(overlay);
       const existingStyle = document.getElementById('popup-spinner-style');
       if (existingStyle) {
         existingStyle.remove();
       }
     };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Fade in overlay
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+    });
 
     // Close popup if clicking outside the box
     overlay.addEventListener('click', (event) => {
