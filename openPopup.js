@@ -27,11 +27,29 @@
     overlay.style.transition = 'opacity 0.4s ease-in';
     document.body.appendChild(overlay);
 
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        removePopup();
+      }
+    };
+
+    // Helper to remove overlay and associated styles
+    const removePopup = () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.removeChild(overlay);
+      const existingStyle = document.getElementById('popup-spinner-style');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
     // Fade in overlay
     requestAnimationFrame(() => {
       overlay.style.opacity = '1';
     });
-    
+
     // Close popup if clicking outside the box
     const restoreBody = () => {
       document.body.style.overflow = previousOverflow;
@@ -42,7 +60,7 @@
 
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
-        restoreBody();
+        removePopup();
       }
     });
 
@@ -69,7 +87,7 @@
     closeBtn.style.color = brandColor;
     closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
-    closeBtn.onclick = restoreBody;
+    closeBtn.onclick = removePopup;
     popup.appendChild(closeBtn);
 
     // Create iframe
@@ -94,16 +112,20 @@
     preloader.style.animation = 'spin 1s linear infinite';
     overlay.appendChild(preloader);
 
-    // Add keyframes for preloader animation
-    const styleSheet = document.createElement("style");
-    styleSheet.type = "text/css";
-    styleSheet.innerText = `
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `;
-    document.head.appendChild(styleSheet);
+    // Add keyframes for preloader animation if not already present
+    let styleSheet = document.getElementById('popup-spinner-style');
+    if (!styleSheet) {
+      styleSheet = document.createElement('style');
+      styleSheet.id = 'popup-spinner-style';
+      styleSheet.type = 'text/css';
+      styleSheet.innerText = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(styleSheet);
+    }
 
     // Wait for iframe to load and then fade in popup
     iframe.onload = () => {
