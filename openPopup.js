@@ -29,9 +29,18 @@
     });
     
     // Close popup if clicking outside the box
+    let escListener;
+
+    function closePopup() {
+      document.removeEventListener('keydown', escListener);
+      if (overlay.parentNode) {
+        document.body.removeChild(overlay);
+      }
+    }
+
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
-        document.body.removeChild(overlay);
+        closePopup();
       }
     });
 
@@ -59,7 +68,7 @@
     closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = () => {
-      document.body.removeChild(overlay);
+      closePopup();
     };
     popup.appendChild(closeBtn);
 
@@ -70,6 +79,13 @@
     iframe.style.height = '100%';
     iframe.style.border = 'none';
     popup.appendChild(iframe);
+
+    escListener = (event) => {
+      if (event.key === 'Escape' && document.activeElement !== iframe) {
+        closePopup();
+      }
+    };
+    document.addEventListener('keydown', escListener);
 
     // Show preloader
     const preloader = document.createElement('div');
