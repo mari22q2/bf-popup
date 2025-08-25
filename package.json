@@ -1,0 +1,12 @@
+{
+  "name": "bf-popup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "openPopup.js",
+  "scripts": {
+    "test": "node openPopup.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

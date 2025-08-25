@@ -28,10 +28,19 @@
       overlay.style.opacity = '1';
     });
     
+    // Helper to remove overlay and associated styles
+    const removePopup = () => {
+      document.body.removeChild(overlay);
+      const existingStyle = document.getElementById('popup-spinner-style');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+    };
+
     // Close popup if clicking outside the box
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
-        document.body.removeChild(overlay);
+        removePopup();
       }
     });
 
@@ -58,9 +67,7 @@
     closeBtn.style.color = brandColor;
     closeBtn.style.fontSize = '35px';
     closeBtn.style.cursor = 'pointer';
-    closeBtn.onclick = () => {
-      document.body.removeChild(overlay);
-    };
+    closeBtn.onclick = removePopup;
     popup.appendChild(closeBtn);
 
     // Create iframe
@@ -85,16 +92,20 @@
     preloader.style.animation = 'spin 1s linear infinite';
     overlay.appendChild(preloader);
 
-    // Add keyframes for preloader animation
-    const styleSheet = document.createElement("style");
-    styleSheet.type = "text/css";
-    styleSheet.innerText = `
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `;
-    document.head.appendChild(styleSheet);
+    // Add keyframes for preloader animation if not already present
+    let styleSheet = document.getElementById('popup-spinner-style');
+    if (!styleSheet) {
+      styleSheet = document.createElement('style');
+      styleSheet.id = 'popup-spinner-style';
+      styleSheet.type = 'text/css';
+      styleSheet.innerText = `
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `;
+      document.head.appendChild(styleSheet);
+    }
 
     // Wait for iframe to load and then fade in popup
     iframe.onload = () => {
