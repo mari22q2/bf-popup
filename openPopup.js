@@ -36,7 +36,10 @@
     // Helper to remove overlay and associated styles
     const removePopup = () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.removeChild(overlay);
+      document.body.style.overflow = previousOverflow;
+      if (overlay.parentNode) {
+        overlay.parentNode.removeChild(overlay);
+      }
       const existingStyle = document.getElementById('popup-spinner-style');
       if (existingStyle) {
         existingStyle.remove();
@@ -51,13 +54,6 @@
     });
 
     // Close popup if clicking outside the box
-    const restoreBody = () => {
-      document.body.style.overflow = previousOverflow;
-      if (overlay.parentNode) {
-        overlay.parentNode.removeChild(overlay);
-      }
-    };
-
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) {
         removePopup();
