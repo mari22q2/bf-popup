@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1a73e8;
+            --primary-hover: #1557b0;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f4;
+            --gray-200: #e8eaed;
+            --gray-300: #dadce0;
+            --gray-400: #bdc1c6;
+            --gray-500: #9aa0a6;
+            --gray-600: #80868b;
+            --gray-700: #5f6368;
+            --gray-800: #3c4043;
+            --gray-900: #202124;
+            --red-600: #d93025;
+            --green-600: #137333;
+            --white: #ffffff;
+            --radius: 4px;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+        
+        .header {
+            background: var(--white);
+            padding: 32px 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: var(--gray-700);
+            font-size: 16px;
+        }
+        
+        .section {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+        
+        .section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+        
+        .section-subtitle {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+        
+        .section-content {
+            padding: 24px;
+        }
+        
+        .form-row {
+            margin-bottom: 20px;
+        }
+        
+        .form-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-900);
+            margin-bottom: 6px;
+        }
+        
+        input, select {
+            width: 100%;
+            height: 40px;
+            padding: 8px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-size: 14px;
+            background: var(--white);
+            transition: border-color 0.2s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+        
+        input::placeholder {
+            color: var(--gray-500);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 0 16px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+        
+        .btn-danger {
+            background: var(--red-600);
+        }
+        
+        .btn-danger:hover {
+            background: #b52d20;
+        }
+        
+        .btn-sm {
+            height: 32px;
+            padding: 0 12px;
+            font-size: 13px;
+        }
+        
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .color-input {
+            width: 80px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            cursor: pointer;
+        }
+        
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+        }
+        
+        .popup-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .popup-item {
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            background: var(--gray-50);
+            position: relative;
+        }
+        
+        .popup-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-200);
+            background: var(--white);
+        }
+        
+        .popup-item-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-900);
+        }
+        
+        .popup-item-content {
+            padding: 20px;
+        }
+        
+        .trigger-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 12px;
+            align-items: end;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-top: 6px;
+        }
+        
+        .exclude-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .code-section {
+            background: var(--gray-900);
+            color: var(--white);
+        }
+        
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .code-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .code-content {
+            padding: 24px;
+        }
+        
+        .code-container {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            padding: 16px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .message {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #e8f5e8;
+            color: var(--green-600);
+            border: 1px solid #c3e6c3;
+        }
+        
+        .message.error {
+            background: #fce8e6;
+            color: var(--red-600);
+            border: 1px solid #fad2cf;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-600);
+        }
+        
+        .empty-state-text {
+            font-size: 14px;
+        }
+        
+        .section-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px 12px;
+            }
+            
+            .header {
+                padding: 24px 20px;
+            }
+            
+            .section-content {
+                padding: 20px;
+            }
+            
+            .trigger-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .color-input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Popup Builder</h1>
+            <p>Create and configure popups for your website</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">Import Configuration</div>
+                <div class="section-subtitle">Load existing settings from your website</div>
+            </div>
+            <div class="section-content">
+                <div class="form-row">
+                    <label for="websiteUrl">Website URL</label>
+                    <input type="url" id="websiteUrl" placeholder="https://yourwebsite.com">
+                    <div class="help-text">Enter your website URL to load existing popup configuration</div>
+                </div>
+                <button class="btn btn-secondary" onclick="loadConfiguration()">Load Configuration</button>
+                <div id="loadMessage" class="message success"></div>
+                <div id="loadError" class="message error"></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-title">Brand Color</div>
+                <div class="section-subtitle">Set the color theme for your popups</div>
+            </div>
+            <div class="section-content">
+                <div class="form-row">
+                    <label for="globalColor">Color</label>
+                    <div class="color-input-group">
+                        <input type="color" id="globalColor" value="#1a73e8" onchange="updateColorPreview()" class="color-input">
+                        <div class="color-preview" id="colorPreview"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-actions">
+                <div>
+                    <div class="section-title">Popup Configuration</div>
+                    <div class="section-subtitle">Configure your popups and triggers</div>
+                </div>
+                <button class="btn btn-sm" onclick="addPopup()">Add Popup</button>
+            </div>
+            <div class="section-content">
+                <div class="popup-list" id="popupList"></div>
+                <div id="emptyState" class="empty-state" style="display: none;">
+                    <div class="empty-state-text">No popups configured. Click "Add Popup" to get started.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="code-section">
+                <div class="code-header">
+                    <div class="code-title">Installation Code</div>
+                    <button class="btn" onclick="copyCode()">Copy Code</button>
+                </div>
+                <div class="code-content">
+                    <div class="help-text" style="color: rgba(255,255,255,0.8); margin-bottom: 16px;">
+                        Copy this code and paste it in your website's &lt;head&gt; section
+                    </div>
+                    <div class="code-container">
+                        <div id="codeOutput">Configure at least one popup to generate installation code</div>
+                    </div>
+                    <div id="copyMessage" class="message success"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let popupCounter = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateColorPreview();
+            addPopup();
+        });
+
+        function updateColorPreview() {
+            const color = document.getElementById('globalColor').value;
+            document.getElementById('colorPreview').style.backgroundColor = color;
+            generateCode();
+        }
+
+        function addPopup() {
+            popupCounter++;
+            const popupId = 'popup_' + popupCounter;
+            
+            const popupHtml = `
+                <div class="popup-item" id="${popupId}">
+                    <div class="popup-item-header">
+                        <div class="popup-item-title">Popup ${popupCounter}</div>
+                        <button class="btn-danger btn-sm" onclick="removePopup('${popupId}')">Remove</button>
+                    </div>
+                    <div class="popup-item-content">
+                        <div class="form-row">
+                            <label>Form URL</label>
+                            <input type="url" class="form-url" placeholder="https://yourform.com/widget/form/abc123" onchange="generateCode()">
+                            <div class="help-text">The URL of your form or content to display in the popup</div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label>Trigger Method</label>
+                            <div class="trigger-grid">
+                                <select class="trigger-type" onchange="updateTriggerInput('${popupId}'); generateCode();">
+                                    <option value="class">CSS Class</option>
+                                    <option value="id">Element ID</option>
+                                    <option value="url">URL Page</option>
+                                    <option value="text">Button Text</option>
+                                </select>
+                                <input type="text" class="trigger-value" placeholder="my-popup-button" onchange="generateCode()">
+                            </div>
+                            <div class="help-text trigger-help">
+                                Add the CSS class "my-popup-button" to any button or link on your website
+                            </div>
+                            
+                            <div class="exclude-section" style="display: none;">
+                                <label>Additional Exclusions</label>
+                                <input type="text" class="exclude-value" placeholder=".no-popup, #special-section" onchange="generateCode()">
+                                <div class="help-text">Navigation and footer elements are automatically excluded. Add extra CSS selectors here if needed.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('popupList').insertAdjacentHTML('beforeend', popupHtml);
+            updateEmptyState();
+            generateCode();
+        }
+
+        function removePopup(popupId) {
+            const popupItems = document.querySelectorAll('.popup-item');
+            if (popupItems.length <= 1) {
+                alert('You need at least one popup configuration');
+                return;
+            }
+            document.getElementById(popupId).remove();
+            updateEmptyState();
+            generateCode();
+        }
+
+        function updateEmptyState() {
+            const popupList = document.getElementById('popupList');
+            const emptyState = document.getElementById('emptyState');
+            const hasPopups = popupList.children.length > 0;
+            
+            emptyState.style.display = hasPopups ? 'none' : 'block';
+        }
+
+        function updateTriggerInput(popupId) {
+            const popup = document.getElementById(popupId);
+            const triggerType = popup.querySelector('.trigger-type').value;
+            const triggerInput = popup.querySelector('.trigger-value');
+            const helpText = popup.querySelector('.trigger-help');
+            const excludeSection = popup.querySelector('.exclude-section');
+            
+            const triggers = {
+                'class': {
+                    placeholder: 'my-popup-button',
+                    help: 'Add the CSS class "my-popup-button" to any button or link on your website',
+                    showExclude: false
+                },
+                'id': {
+                    placeholder: 'popup-button-1',
+                    help: 'Add id="popup-button-1" to the specific element that should trigger this popup',
+                    showExclude: false
+                },
+                'url': {
+                    placeholder: '/contact',
+                    help: 'Buttons and links on this page will trigger the popup. Navigation and footer elements are automatically excluded.',
+                    showExclude: true
+                },
+                'text': {
+                    placeholder: 'Contact Us',
+                    help: 'Any button or link containing this text will trigger the popup',
+                    showExclude: true
+                }
+            };
+            
+            const config = triggers[triggerType];
+            triggerInput.placeholder = config.placeholder;
+            helpText.textContent = config.help;
+            excludeSection.style.display = config.showExclude ? 'block' : 'none';
+        }
+
+        function generateCode() {
+            const globalColor = document.getElementById('globalColor').value;
+            const popupElements = document.querySelectorAll('.popup-item');
+            
+            if (popupElements.length === 0) {
+                document.getElementById('codeOutput').textContent = 'Configure at least one popup to generate installation code';
+                return;
+            }
+            
+            const popups = [];
+            let hasValidPopup = false;
+            
+            popupElements.forEach(popup => {
+                const formUrl = popup.querySelector('.form-url').value.trim();
+                const triggerType = popup.querySelector('.trigger-type').value;
+                const triggerValue = popup.querySelector('.trigger-value').value.trim();
+                const excludeValue = popup.querySelector('.exclude-value').value.trim();
+                
+                if (formUrl && triggerValue) {
+                    const triggerConfig = {
+                        type: triggerType,
+                        value: triggerValue
+                    };
+                    
+                    if (excludeValue) {
+                        triggerConfig.exclude = excludeValue;
+                    }
+                    
+                    popups.push({
+                        formUrl: formUrl,
+                        trigger: triggerConfig
+                    });
+                    hasValidPopup = true;
+                }
+            });
+            
+            if (!hasValidPopup) {
+                document.getElementById('codeOutput').textContent = 'Please fill in Form URL and trigger value for at least one popup';
+                return;
+            }
+            
+            const config = {
+                globalColor: globalColor,
+                popups: popups
+            };
+            
+            const code = `<script src="openPopup.js" data-popup-config='${JSON.stringify(config)}'><\/script>`;
+            
+            document.getElementById('codeOutput').textContent = code;
+        }
+
+        function copyCode() {
+            const codeText = document.getElementById('codeOutput').textContent;
+            
+            if (codeText.includes('Configure at least one popup') || codeText.includes('Please fill in')) {
+                alert('Please configure at least one popup first');
+                return;
+            }
+            
+            navigator.clipboard.writeText(codeText).then(function() {
+                showMessage('copyMessage', 'Code copied to clipboard successfully', 'success');
+            }).catch(function() {
+                const textArea = document.createElement('textarea');
+                textArea.value = codeText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showMessage('copyMessage', 'Code copied to clipboard successfully', 'success');
+            });
+        }
+
+        async function loadConfiguration() {
+            const websiteUrl = document.getElementById('websiteUrl').value.trim();
+            
+            if (!websiteUrl) {
+                showMessage('loadError', 'Please enter a website URL', 'error');
+                return;
+            }
+            
+            showMessage('loadMessage', 'Searching for existing configuration...', 'success');
+            
+            try {
+                // For local testing, check if it's a file:// URL
+                if (websiteUrl.startsWith('file://')) {
+                    showMessage('loadMessage', 'Local file URLs cannot be imported. Please use a website with HTTP/HTTPS URL.', 'success');
+                    return;
+                }
+                
+                // Try to fetch the website and parse for popup configuration
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(websiteUrl)}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch website');
+                }
+                
+                const data = await response.json();
+                const htmlContent = data.contents;
+                const status = data.status;
+                
+                console.log('Fetched HTML content length:', htmlContent.length);
+                console.log('HTTP Status:', status?.http_code);
+                console.log('Looking for popup configuration...');
+                
+                // Check for security blocks, error pages, or blocked content
+                if (status?.http_code >= 400) {
+                    let errorMessage = 'Website returned an error';
+                    
+                    if (status.http_code === 555) {
+                        errorMessage = 'Website blocked the request due to security policies. Cannot import configuration.';
+                    } else if (status.http_code === 404) {
+                        errorMessage = 'Website not found (404). Please check the URL.';
+                    } else if (status.http_code >= 500) {
+                        errorMessage = 'Website server error. Please try again later.';
+                    } else if (status.http_code >= 400) {
+                        errorMessage = `Website access denied (${status.http_code}). Cannot import configuration.`;
+                    }
+                    
+                    showMessage('loadError', errorMessage, 'error');
+                    return;
+                }
+                
+                // Check if content looks like an error page
+                if (htmlContent.includes('Security Incident') || 
+                    htmlContent.includes('blocked') || 
+                    htmlContent.includes('errorpage') ||
+                    htmlContent.includes('Access Denied')) {
+                    showMessage('loadError', 'Website blocked the request or returned an error page. Cannot import configuration.', 'error');
+                    return;
+                }
+                
+                // Look for script tags with data-popup-config
+                const scriptRegex = /<script[^>]*data-popup-config=['"]([^'"]*)['"]/g;
+                const match = scriptRegex.exec(htmlContent);
+                
+                console.log('Regex match result:', match);
+                
+                if (match) {
+                    try {
+                        const configJson = match[1].replace(/&quot;/g, '"');
+                        const config = JSON.parse(configJson);
+                        
+                        // Load the configuration into the builder
+                        if (config.globalColor) {
+                            document.getElementById('globalColor').value = config.globalColor;
+                            updateColorPreview();
+                        }
+                        
+                        // Clear existing popups
+                        document.getElementById('popupList').innerHTML = '';
+                        popupCounter = 0;
+                        
+                        // Load popups from config
+                        if (config.popups && config.popups.length > 0) {
+                            config.popups.forEach(popupConfig => {
+                                addPopup();
+                                const lastPopup = document.querySelector('.popup-item:last-child');
+                                
+                                // Fill in the form data
+                                lastPopup.querySelector('.form-url').value = popupConfig.formUrl;
+                                lastPopup.querySelector('.trigger-type').value = popupConfig.trigger.type;
+                                lastPopup.querySelector('.trigger-value').value = popupConfig.trigger.value;
+                                
+                                if (popupConfig.trigger.exclude) {
+                                    lastPopup.querySelector('.exclude-value').value = popupConfig.trigger.exclude;
+                                }
+                                
+                                // Update trigger input display
+                                updateTriggerInput(lastPopup.id);
+                            });
+                        } else {
+                            addPopup(); // Add default popup if none found
+                        }
+                        
+                        updateEmptyState();
+                        generateCode();
+                        
+                        showMessage('loadMessage', `Configuration loaded successfully! Found ${config.popups ? config.popups.length : 0} popup(s).`, 'success');
+                    } catch (parseError) {
+                        showMessage('loadError', 'Found configuration but failed to parse it', 'error');
+                    }
+                } else {
+                    // Look for legacy manual configurations (less reliable)
+                    if (htmlContent.includes('openPopup(')) {
+                        showMessage('loadMessage', 'Found legacy popup code. Please manually recreate your configuration.', 'success');
+                    } else {
+                        showMessage('loadMessage', 'No popup configuration found on this website', 'success');
+                    }
+                }
+            } catch (error) {
+                console.error('Load configuration error:', error);
+                showMessage('loadError', 'Failed to load website. Please check the URL and try again.', 'error');
+            }
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

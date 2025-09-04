@@ -1,6 +1,20 @@
 (function() {
   // Function to initialize and show the popup
   function openPopup(iframeUrl, brandColor = '#007bff', width = 700, height = 650) {
+    // Validate parameters
+    if (!iframeUrl || typeof iframeUrl !== 'string') {
+      console.error('openPopup: Invalid iframe URL provided');
+      return;
+    }
+
+    // Sanitize URL to prevent XSS
+    try {
+      new URL(iframeUrl);
+    } catch (e) {
+      console.error('openPopup: Invalid URL format:', iframeUrl);
+      return;
+    }
+
     // Check if an overlay already exists
     if (document.querySelector('.popup-overlay')) {
       return;
@@ -123,13 +137,136 @@
       document.head.appendChild(styleSheet);
     }
 
-    // Wait for iframe to load and then fade in popup
+    // Handle iframe load and error events
     iframe.onload = () => {
       preloader.style.display = 'none';
       popup.style.opacity = '1';
     };
+
+    iframe.onerror = () => {
+      preloader.style.display = 'none';
+      popup.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; text-align: center; padding: 20px;">
+          <div style="font-size: 48px; margin-bottom: 20px;">⚠️</div>
+          <h3 style="margin: 0 0 10px 0; color: #333;">Unable to load form</h3>
+          <p style="margin: 0; font-size: 14px;">Please check the URL and try again</p>
+        </div>
+      `;
+      popup.style.opacity = '1';
+      
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = '×';
+      closeBtn.style.position = 'absolute';
+      closeBtn.style.top = '10px';
+      closeBtn.style.right = '15px';
+      closeBtn.style.background = 'transparent';
+      closeBtn.style.border = 'none';
+      closeBtn.style.color = brandColor;
+      closeBtn.style.fontSize = '35px';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.onclick = removePopup;
+      popup.appendChild(closeBtn);
+    };
+
+    // Set timeout for iframe loading
+    setTimeout(() => {
+      if (popup.style.opacity === '0') {
+        iframe.onerror();
+      }
+    }, 10000);
   }
 
-  // Expose the function to global scope
+  // Initialize popup system with configuration
+  function initPopupSystem(config = {}) {
+    const defaultConfig = {
+      globalColor: '#007bff',
+      popups: []
+    };
+
+    const finalConfig = { ...defaultConfig, ...config };
+
+    finalConfig.popups.forEach(popupConfig => {
+      const { trigger, formUrl, color } = popupConfig;
+      const popupColor = color || finalConfig.globalColor;
+
+      if (trigger.type === 'class' || trigger.type === 'id') {
+        const selector = trigger.type === 'class' ? `.${trigger.value}` : `#${trigger.value}`;
+        const elements = document.querySelectorAll(selector);
+        
+        elements.forEach(element => {
+          element.addEventListener('click', function(event) {
+            event.preventDefault();
+            openPopup(formUrl, popupColor);
+          });
+        });
+      } 
+      else if (trigger.type === 'url') {
+        if (window.location.pathname === trigger.value || window.location.href.includes(trigger.value)) {
+          const buttons = document.querySelectorAll('a, button');
+          buttons.forEach(button => {
+            // Default exclusions for common navigation/footer elements
+            const defaultExcludes = 'nav, header, footer, .nav, .navbar, .header, .footer, .menu, .navigation, .sidebar, .breadcrumb, [role="navigation"]';
+            
+            // Combine default exclusions with user-specified ones
+            const userExcludes = trigger.exclude || '';
+            const allExcludes = userExcludes ? `${defaultExcludes}, ${userExcludes}` : defaultExcludes;
+            
+            let shouldExclude = false;
+            const excludeList = allExcludes.split(',').map(s => s.trim()).filter(s => s);
+            
+            shouldExclude = excludeList.some(selector => {
+              try {
+                return button.matches(selector) || button.closest(selector);
+              } catch (e) {
+                console.warn('openPopup: Invalid exclude selector:', selector);
+                return false;
+              }
+            });
+            
+            if (!shouldExclude) {
+              button.addEventListener('click', function(event) {
+                event.preventDefault();
+                openPopup(formUrl, popupColor);
+              });
+            }
+          });
+        }
+      }
+      else if (trigger.type === 'text') {
+        const elements = document.querySelectorAll('a, button');
+        elements.forEach(element => {
+          if (element.textContent.toLowerCase().includes(trigger.value.toLowerCase())) {
+            element.addEventListener('click', function(event) {
+              event.preventDefault();
+              openPopup(formUrl, popupColor);
+            });
+          }
+        });
+      }
+    });
+  }
+
+  // Auto-initialize from data attributes
+  function autoInit() {
+    const script = document.querySelector('script[data-popup-config]');
+    if (script) {
+      try {
+        const config = JSON.parse(script.getAttribute('data-popup-config'));
+        initPopupSystem(config);
+      } catch (e) {
+        console.error('openPopup: Invalid configuration JSON', e);
+      }
+    }
+  }
+
+  // Run auto-init when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', autoInit);
+  } else {
+    autoInit();
+  }
+
+  // Expose functions to global scope
   window.openPopup = openPopup;
+  window.initPopupSystem = initPopupSystem;
 })();

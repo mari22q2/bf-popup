@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Legacy Method</title>
+    
+    <!-- Test backwards compatibility - Load openPopup.js without data attributes -->
+    <script src="openPopup.js"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        button, .btn {
+            background: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover, .btn:hover {
+            background: #2980b9;
+        }
+        .section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-result {
+            background: #d5edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Legacy Method - Backwards Compatibility</h1>
+    
+    <div class="test-result">
+        <h3>✅ Testing Legacy Manual Method</h3>
+        <p><strong>Expected:</strong> These buttons should open popups when clicked</p>
+        <p><strong>Method:</strong> Using the old manual addEventListener approach</p>
+    </div>
+    
+    <div class="section">
+        <h2>Legacy Method Test Buttons</h2>
+        <button class="legacy-popup">Legacy Button 1</button>
+        <button class="legacy-popup">Legacy Button 2</button>
+        <a href="#" class="btn legacy-popup">Legacy Link</a>
+    </div>
+    
+    <div class="section">
+        <h2>Direct Function Call Test</h2>
+        <button onclick="testDirectCall()">Test Direct openPopup() Call</button>
+        <button onclick="testWithCustomColor()">Test with Custom Color</button>
+    </div>
+    
+    <script>
+        console.log('Testing legacy compatibility...');
+        console.log('window.openPopup available:', typeof window.openPopup === 'function');
+        
+        // Test 1: Legacy method - manual event listeners (how clients used to do it)
+        document.querySelectorAll(".legacy-popup").forEach(function (button) {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                openPopup("https://httpbin.org/html", "#e74c3c");
+            });
+        });
+        
+        // Test 2: Direct function calls
+        function testDirectCall() {
+            openPopup("https://httpbin.org/json", "#27ae60");
+        }
+        
+        function testWithCustomColor() {
+            openPopup("https://httpbin.org/xml", "#8e44ad", 600, 500);
+        }
+        
+        // Test 3: Verify the function is globally accessible
+        if (typeof window.openPopup === 'function') {
+            console.log('✅ Legacy compatibility: openPopup function is globally available');
+        } else {
+            console.error('❌ Legacy compatibility BROKEN: openPopup function not available');
+        }
+    </script>
+</body>
+</html>

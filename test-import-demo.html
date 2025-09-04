@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import Configuration Test Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-box {
+            background: #e8f5e8;
+            border: 1px solid #c3e6c3;
+            color: #155724;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .step {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+        }
+        .url-box {
+            background: #f1f3f4;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #dadce0;
+        }
+        button {
+            background: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Import Configuration Test Demo</h1>
+    
+    <div class="test-box">
+        <h3>🧪 Test Import Functionality</h3>
+        <p>Follow these steps to test the import configuration feature:</p>
+    </div>
+    
+    <div class="step">
+        <h4>Step 1: Open Popup Builder</h4>
+        <p>Open the popup builder in another tab/window</p>
+        <button onclick="window.open('popup-builder.html', '_blank')">Open Popup Builder</button>
+    </div>
+    
+    <div class="step">
+        <h4>Step 2: Test URLs to Try</h4>
+        <p><strong>Test Case 1 - Should show "No configuration found":</strong></p>
+        <div class="url-box">https://httpbin.org</div>
+        
+        <p><strong>Test Case 2 - Should handle error gracefully:</strong></p>
+        <div class="url-box">https://nonexistent-website-12345.com</div>
+        
+        <p><strong>Test Case 3 - Local file (should show appropriate message):</strong></p>
+        <div class="url-box">file:///path/to/local/file.html</div>
+    </div>
+    
+    <div class="step">
+        <h4>Step 3: What to Expect</h4>
+        <ul>
+            <li><strong>Valid website without popup config:</strong> "No popup configuration found"</li>
+            <li><strong>Invalid/unreachable URL:</strong> "Failed to load website" error</li>
+            <li><strong>Local file URL:</strong> "Local file URLs cannot be imported"</li>
+            <li><strong>Valid website with config:</strong> Configuration loads into builder</li>
+        </ul>
+    </div>
+    
+    <div class="step">
+        <h4>Step 4: Check Console</h4>
+        <p>Open browser developer tools (F12) and watch the console for debug information during import.</p>
+    </div>
+    
+    <div class="test-box">
+        <h4>📋 Manual Test Checklist</h4>
+        <p>Test these scenarios and check the results:</p>
+        <ul>
+            <li>☐ Enter invalid URL → Should show error message</li>
+            <li>☐ Enter valid URL without config → Should show "no config found"</li>
+            <li>☐ Enter file:// URL → Should show local file message</li>
+            <li>☐ Network error handling → Should show appropriate error</li>
+            <li>☐ Check console for debug logs</li>
+        </ul>
+    </div>
+    
+    <script>
+        console.log('Import test demo loaded');
+        console.log('Use this page to guide your testing of the import functionality');
+    </script>
+</body>
+</html>

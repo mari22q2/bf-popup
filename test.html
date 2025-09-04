@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="openPopup.js" 
+    data-popup-config='{"globalColor":"#2563eb","popups":[{"formUrl":"https://book.businessandfitness.dk/widget/survey/PeQpxTOSZPUyArtaQ7yz?notrack=true","trigger":{"type":"class","value":"contact-popup"}}]}'></script>    <title>Test Page for Popup Scripts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+        }
+        .section h2 {
+            color: #666;
+            margin-top: 0;
+        }
+        button, .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        button:hover, .btn:hover {
+            background: #0056b3;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .code-area {
+            background: #1e1e1e;
+            color: #4CAF50;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+        .instructions {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+            margin: 20px 0;
+        }
+    </style>
+    
+    <!-- ⬇️ PASTE YOUR GENERATED POPUP CODE HERE ⬇️ -->
+    
+    <!-- Example popup script (replace this with your generated code):
+    <script src="https://cdn.jsdelivr.net/gh/mari22q2/bf-popup/openPopup.js" 
+            data-popup-config='{"globalColor":"#007bff","popups":[{"formUrl":"https://book.businessandfitness.dk/widget/form/C5s3ocGHAwJTkveUncfg","trigger":{"type":"class","value":"contact-popup"}}]}'>
+    </script>
+    -->
+    
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Popup Test Page</h1>
+        
+        <div class="instructions">
+            <strong>How to test:</strong>
+            <ol>
+                <li>Go to <strong>config.html</strong> and create your popup configuration</li>
+                <li>Copy the generated code</li>
+                <li>Paste it in the &lt;head&gt; section above (replace the example)</li>
+                <li>Add the appropriate CSS classes to the buttons below</li>
+                <li>Refresh this page and test!</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Test Buttons for CSS Classes</h2>
+            <p>Use these buttons to test class-based triggers:</p>
+            
+            <button class="contact-popup">Contact Us (class: contact-popup)</button>
+            <button class="signup-popup">Sign Up (class: signup-popup)</button>
+            <button class="demo-popup">Book Demo (class: demo-popup)</button>
+            <button class="newsletter-popup">Newsletter (class: newsletter-popup)</button>
+            
+            <br><br>
+            
+            <a href="#" class="btn contact-popup">Contact Link (class: contact-popup)</a>
+            <a href="#" class="btn btn-success signup-popup">Join Now (class: signup-popup)</a>
+        </div>
+
+        <div class="section">
+            <h2>Test Buttons for ID-based Triggers</h2>
+            <p>Use these buttons to test ID-based triggers:</p>
+            
+            <button id="main-cta">Main CTA Button (id: main-cta)</button>
+            <button id="secondary-cta">Secondary CTA (id: secondary-cta)</button>
+            <button id="footer-signup">Footer Signup (id: footer-signup)</button>
+        </div>
+
+        <div class="section">
+            <h2>Test Buttons for Text-based Triggers</h2>
+            <p>Use these buttons to test text content triggers:</p>
+            
+            <button>Get Started Now</button>
+            <button>Start Free Trial</button>
+            <button>Book a Call</button>
+            <button>Request Demo</button>
+            <button>Contact Sales</button>
+            
+            <br><br>
+            
+            <a href="#" class="btn btn-warning">Learn More</a>
+            <a href="#" class="btn btn-danger">Download Now</a>
+        </div>
+
+        <div class="section">
+            <h2>Test Buttons for URL-based Triggers</h2>
+            <p>These will work when the URL trigger matches this page:</p>
+            
+            <button>Any Button 1</button>
+            <button>Any Button 2</button>
+            <button>Any Button 3</button>
+            
+            <br><br>
+            
+            <a href="#" class="btn">Any Link 1</a>
+            <a href="#" class="btn">Any Link 2</a>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Current Page Info</h2>
+            <p><strong>URL:</strong> <span id="currentUrl"></span></p>
+            <p><strong>Path:</strong> <span id="currentPath"></span></p>
+            <p>Use this info when setting up URL-based triggers in the config.</p>
+        </div>
+
+        <div class="section">
+            <h2>📝 Quick Test Examples</h2>
+            <div class="code-area">
+Example configuration for this page:
+
+1. Class trigger: "contact-popup" → will trigger the blue "Contact Us" buttons
+2. ID trigger: "main-cta" → will trigger the "Main CTA Button"  
+3. Text trigger: "Get Started" → will trigger any button containing "Get Started"
+4. URL trigger: "/test.html" → will make ALL buttons trigger the popup on this page
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Display current page info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('currentPath').textContent = window.location.pathname;
+        
+        // Add some console logging for debugging
+        console.log('Test page loaded!');
+        console.log('Current URL:', window.location.href);
+        console.log('Current Path:', window.location.pathname);
+        
+        // Check if popup script is loaded
+        setTimeout(() => {
+            if (window.openPopup) {
+                console.log('✅ Popup script loaded successfully!');
+            } else {
+                console.log('❌ Popup script not found. Make sure you pasted the generated code in the <head> section.');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
