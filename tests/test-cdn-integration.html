@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CDN Integration</title>
+    
+    <!-- Test CDN integration -->
+    <script src="https://cdn.jsdelivr.net/gh/mari22q2/bf-popup/openPopup.js" 
+            data-popup-config='{"globalColor":"#e74c3c","popups":[{"formUrl":"https://httpbin.org/html","trigger":{"type":"class","value":"cdn-test"}}]}'></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        button {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .test-result {
+            background: #d5edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <h1>CDN Integration Test</h1>
+    
+    <div class="test-result">
+        <h3>✅ Testing CDN Integration</h3>
+        <p><strong>CDN URL:</strong> https://cdn.jsdelivr.net/gh/mari22q2/bf-popup/openPopup.js</p>
+        <p><strong>Expected:</strong> Button should open popup when CDN is working</p>
+    </div>
+    
+    <div class="warning">
+        <h4>⚠️ Note about CDN Delay</h4>
+        <p>CDN updates can take 5-15 minutes to propagate. If the test fails initially, wait a few minutes and refresh.</p>
+    </div>
+    
+    <div>
+        <h2>Test Button</h2>
+        <button class="cdn-test">Test CDN Popup</button>
+        <p>This button uses the class "cdn-test" which should trigger the popup via CDN.</p>
+    </div>
+    
+    <script>
+        // Check if CDN loaded successfully
+        setTimeout(() => {
+            if (typeof window.openPopup === 'function') {
+                console.log('✅ CDN Integration: openPopup function loaded successfully');
+                document.body.insertAdjacentHTML('beforeend', 
+                    '<div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 1rem; border-radius: 4px; margin: 1rem 0;">' +
+                    '<strong>✅ CDN Status:</strong> Successfully loaded from jsdelivr CDN' +
+                    '</div>'
+                );
+            } else {
+                console.error('❌ CDN Integration: Failed to load openPopup function');
+                document.body.insertAdjacentHTML('beforeend', 
+                    '<div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 4px; margin: 1rem 0;">' +
+                    '<strong>❌ CDN Status:</strong> Failed to load from CDN. Check network or wait for CDN propagation.' +
+                    '</div>'
+                );
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
